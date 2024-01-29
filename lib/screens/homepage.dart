@@ -179,32 +179,45 @@ class _HomePageState extends State<HomePage> {
       itemCount: shoppingLists.length,
       itemBuilder: (context, index) {
         final list = shoppingLists[index];
-        return Card(
-          color: list.color.withOpacity(0.5),
-          child: ListTile(
-            leading: IconButton(
-              icon: Icon(
-                list.isFavourite ? Icons.favorite : Icons.favorite_border,
-                color: Colors.red,
-              ),
-              onPressed: () => _toggleFavourite(index),
-            ),
-            title: Text(list.title),
-            trailing: IconButton(
-              icon: Icon(Icons.delete, color: Colors.grey),
-              onPressed: () => _deleteList(index),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListDetails(
-                    listName: list.title,
-                    shoppingLists: shoppingLists,
-                  ),
+
+        EdgeInsets padding;
+        if (index == 0) {
+          // Primul element din listă va avea un padding suplimentar în partea de sus
+          padding = EdgeInsets.only(top: 60, right: 20, left: 20);
+        } else {
+          // Celelalte elemente vor avea padding standard
+          padding = EdgeInsets.only(top: 10, right: 20, left: 20);
+        }
+
+        return Padding(
+          padding: padding,
+          child: Card(
+            color: list.color.withOpacity(0.5),
+            child: ListTile(
+              leading: IconButton(
+                icon: Icon(
+                  list.isFavourite ? Icons.favorite : Icons.favorite_border,
+                  color: Color.fromARGB(255, 19, 120, 65),
                 ),
-              );
-            },
+                onPressed: () => _toggleFavourite(index),
+              ),
+              title: Text(list.title),
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.grey),
+                onPressed: () => _deleteList(index),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListDetails(
+                      listName: list.title,
+                      shoppingLists: shoppingLists,
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         );
       },
