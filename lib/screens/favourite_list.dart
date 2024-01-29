@@ -6,11 +6,10 @@ class FavouriteList extends StatefulWidget {
   final List<ShoppingList> favouriteLists;
   final Function onFavouriteChanged;
 
-  FavouriteList(
-      {Key? key,
+  const FavouriteList(
+      {super.key,
       required this.favouriteLists,
-      required this.onFavouriteChanged})
-      : super(key: key);
+      required this.onFavouriteChanged});
   @override
   _FavouriteListState createState() => _FavouriteListState();
 }
@@ -21,23 +20,23 @@ class _FavouriteListState extends State<FavouriteList> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
           decoration: BoxDecoration(
-            color: Color.fromARGB(95, 255, 255, 255),
+            color: Color.fromARGB(95, 0, 0, 0),
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Text(
+          child: const Text(
             'Listele Favorite',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF014421),
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 20,
             ),
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(0, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
         elevation: 0,
       ),
       extendBody: true,
@@ -46,7 +45,7 @@ class _FavouriteListState extends State<FavouriteList> {
         children: <Widget>[
           _buildDynamicBackground(),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 top: 60, bottom: 10), // Ajustează valoarea după preferințe
             child: _buildContent(),
           ),
@@ -58,8 +57,8 @@ class _FavouriteListState extends State<FavouriteList> {
 
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      decoration: BoxDecoration(
+      duration: const Duration(seconds: 1),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -73,6 +72,21 @@ class _FavouriteListState extends State<FavouriteList> {
   }
 
   Widget _buildContent() {
+    if (widget.favouriteLists.isEmpty) {
+      // Afisarea unui mesaj atunci cand lista de favorite este goala
+      return Center(
+        child: Text(
+          "Până acum, nu ai adăugat nicio listă la favorite",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            color: Color.fromARGB(255, 116, 116, 116),
+          ),
+        ),
+      );
+    }
+
+    // Construirea listei de favorite daca aceasta nu este goala
     return ListView.builder(
       itemCount: widget.favouriteLists.length,
       itemBuilder: (context, index) {
@@ -94,13 +108,14 @@ class _FavouriteListState extends State<FavouriteList> {
         child: ListTile(
           leading: Text(
             list.title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
           trailing: IconButton(
-            icon: Icon(Icons.delete, color: Color.fromARGB(255, 46, 119, 17)),
+            icon: const Icon(Icons.delete,
+                color: Color.fromARGB(255, 46, 119, 17)),
             onPressed: () {
               _removeItemFromList(index);
             },
@@ -121,21 +136,21 @@ class _FavouriteListState extends State<FavouriteList> {
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       notchMargin: 9.0,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.home,
+            icon: const Icon(Icons.home,
                 color: Color.fromARGB(255, 255, 255, 255), size: 40),
             onPressed: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
             },
           ),
           IconButton(
-            icon: Icon(Icons.favorite,
+            icon: const Icon(Icons.favorite,
                 color: Color.fromARGB(255, 255, 255, 255), size: 45),
             onPressed: () {
               Navigator.push(

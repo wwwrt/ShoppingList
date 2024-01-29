@@ -8,6 +8,8 @@ import '../screens/contact_us.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -101,23 +103,23 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
           decoration: BoxDecoration(
-            color: Color.fromARGB(95, 255, 255, 255),
+            color: Color.fromARGB(95, 0, 0, 0),
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Text(
+          child: const Text(
             'Shopping List',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF014421),
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 20,
             ),
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(0, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
         elevation: 0,
       ),
       extendBody: true,
@@ -132,6 +134,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: _showAddListDialog,
         tooltip: 'Adaugă Listă',
         child: const Icon(Icons.add),
+        shape: CircleBorder(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(context),
@@ -140,8 +143,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      decoration: BoxDecoration(
+      duration: const Duration(seconds: 1),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -158,16 +161,15 @@ class _HomePageState extends State<HomePage> {
     // Verifică dacă lista este goală
     if (shoppingLists.isEmpty) {
       // Afișează mesajul de întâmpinare
-      return Center(
+      return const Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          padding: EdgeInsets.only(left: 30, right: 30),
           child: Text(
             'Bine ai venit! Începe prin a adăuga prima ta listă de cumpărături.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF014421),
-              fontSize: 20,
+              color: Color.fromARGB(255, 108, 108, 108),
+              fontSize: 19,
             ),
           ),
         ),
@@ -182,11 +184,9 @@ class _HomePageState extends State<HomePage> {
 
         EdgeInsets padding;
         if (index == 0) {
-          // Primul element din listă va avea un padding suplimentar în partea de sus
-          padding = EdgeInsets.only(top: 60, right: 20, left: 20);
+          padding = const EdgeInsets.only(top: 60, right: 20, left: 20);
         } else {
-          // Celelalte elemente vor avea padding standard
-          padding = EdgeInsets.only(top: 10, right: 20, left: 20);
+          padding = const EdgeInsets.only(top: 10, right: 20, left: 20);
         }
 
         return Padding(
@@ -197,13 +197,13 @@ class _HomePageState extends State<HomePage> {
               leading: IconButton(
                 icon: Icon(
                   list.isFavourite ? Icons.favorite : Icons.favorite_border,
-                  color: Color.fromARGB(255, 19, 120, 65),
+                  color: const Color.fromARGB(255, 19, 120, 65),
                 ),
                 onPressed: () => _toggleFavourite(index),
               ),
               title: Text(list.title),
               trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.grey),
+                icon: const Icon(Icons.delete, color: Color(0xFF014421)),
                 onPressed: () => _deleteList(index),
               ),
               onTap: () {
@@ -227,16 +227,15 @@ class _HomePageState extends State<HomePage> {
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       notchMargin: 9.0,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert,
-                color: Color.fromARGB(255, 255, 255, 255),
-                size: 40), // Setează culoarea aici
+            icon: const Icon(Icons.more_vert,
+                color: Color.fromARGB(255, 255, 255, 255), size: 40),
             onSelected: _handleMenuSelection,
             itemBuilder: (BuildContext context) {
               return {
@@ -250,14 +249,14 @@ class _HomePageState extends State<HomePage> {
                   value: choice,
                   child: Text(
                     choice,
-                    style: TextStyle(color: Color(0xFF014421)),
+                    style: const TextStyle(color: Color(0xFF014421)),
                   ),
                 );
               }).toList();
             },
           ),
           IconButton(
-            icon: Icon(Icons.favorite,
+            icon: const Icon(Icons.favorite,
                 color: Color.fromARGB(255, 255, 255, 255), size: 45),
             onPressed: () {
               Navigator.push(
@@ -268,7 +267,6 @@ class _HomePageState extends State<HomePage> {
                         .where((list) => list.isFavourite)
                         .toList(),
                     onFavouriteChanged: (ShoppingList removedList) {
-                      // Actualizați starea listei când o listă este eliminată din favorite
                       _toggleFavourite(shoppingLists.indexOf(removedList));
                     },
                   ),
@@ -284,12 +282,12 @@ class _HomePageState extends State<HomePage> {
   void _handleMenuSelection(String value) {
     switch (value) {
       case 'About Us':
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AboutUsScreen()));
         break;
       case 'Contact Us':
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ContactUsScreen()));
+            MaterialPageRoute(builder: (context) => const ContactUsScreen()));
         break;
       case 'Instagram':
         _launchURL('https://www.instagram.com/timotei_daniel28/');

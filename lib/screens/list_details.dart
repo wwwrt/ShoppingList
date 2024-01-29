@@ -6,7 +6,8 @@ class ListDetails extends StatefulWidget {
   final String listName;
   final List<ShoppingList> shoppingLists;
 
-  ListDetails({required this.listName, required this.shoppingLists});
+  const ListDetails(
+      {super.key, required this.listName, required this.shoppingLists});
 
   @override
   _ListDetailsState createState() => _ListDetailsState();
@@ -14,6 +15,20 @@ class ListDetails extends StatefulWidget {
 
 class _ListDetailsState extends State<ListDetails> {
   List<Map<String, dynamic>> products = [];
+
+  void _incrementQuantity(int index) {
+    setState(() {
+      products[index]["quantity"] += 1;
+    });
+  }
+
+  void _decrementQuantity(int index) {
+    if (products[index]["quantity"] > 0) {
+      setState(() {
+        products[index]["quantity"] -= 1;
+      });
+    }
+  }
 
   void _deleteProduct(int index) {
     setState(() {
@@ -36,35 +51,38 @@ class _ListDetailsState extends State<ListDetails> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Adaugă Produs"),
+          title: const Text("Adaugă Produs"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Nume produs'),
+                decoration: const InputDecoration(labelText: 'Denumire produs'),
               ),
               TextField(
                 controller: quantityController,
-                decoration: InputDecoration(labelText: 'Cantitate'),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration:
+                    const InputDecoration(labelText: 'Unități / Kilograme'),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
               TextField(
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Preț per bucată'),
+                decoration:
+                    const InputDecoration(labelText: 'Preț per unitate / Kg'),
                 keyboardType: TextInputType.number,
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("Anulare"),
+              child: const Text("Anulare"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("Adaugă"),
+              child: const Text("Adaugă"),
               onPressed: () {
                 setState(() {
                   products.add({
@@ -91,7 +109,7 @@ class _ListDetailsState extends State<ListDetails> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Editează Produsul"),
+          title: const Text("Editează Produsul"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -99,30 +117,32 @@ class _ListDetailsState extends State<ListDetails> {
                 onChanged: (value) {
                   productName = value;
                 },
-                decoration: InputDecoration(labelText: "Nume Produs"),
+                decoration: const InputDecoration(labelText: "Nume Produs"),
                 controller: TextEditingController(text: productName),
               ),
               TextField(
                 onChanged: (value) {
                   quantity = double.tryParse(value) ?? 0.0;
                 },
-                decoration: InputDecoration(labelText: "Cantitate"),
+                decoration: const InputDecoration(labelText: "Cantitate"),
                 controller: TextEditingController(text: quantity.toString()),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
               TextField(
                 onChanged: (value) {
                   price = double.tryParse(value) ?? 0.0;
                 },
-                decoration: InputDecoration(labelText: "Preț"),
+                decoration: const InputDecoration(labelText: "Preț"),
                 controller: TextEditingController(text: price.toString()),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("Salvează"),
+              child: const Text("Salvează"),
               onPressed: () {
                 setState(() {
                   products[index] = {
@@ -146,7 +166,7 @@ class _ListDetailsState extends State<ListDetails> {
       left: 80,
       right: 80,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.5),
           borderRadius: BorderRadius.circular(15.0),
@@ -155,14 +175,14 @@ class _ListDetailsState extends State<ListDetails> {
               color: Colors.black.withOpacity(0.2),
               spreadRadius: 0,
               blurRadius: 10,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Text(
-          "Total: \$${_calculateTotalCost()}",
+          "Total: ${_calculateTotalCost()} Lei",
           textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -170,8 +190,8 @@ class _ListDetailsState extends State<ListDetails> {
 
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      decoration: BoxDecoration(
+      duration: const Duration(seconds: 1),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -212,16 +232,24 @@ class _ListDetailsState extends State<ListDetails> {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
+                        icon: const Icon(Icons.delete,
+                            color: Color.fromARGB(255, 41, 113, 28)),
                         onPressed: () => _deleteProduct(index),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey[100],
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
+                            color: Colors.white.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 0,
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
+                              ),
+                            ]),
                         child: Text(
                           product["name"],
                           overflow: TextOverflow.ellipsis,
@@ -230,29 +258,43 @@ class _ListDetailsState extends State<ListDetails> {
                     ],
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: MediaQuery.of(context).size.width * 0.15,
+                  padding: const EdgeInsets.all(8.0),
+                  width: MediaQuery.of(context).size.width * 0.2,
                   decoration: BoxDecoration(
-                    color: Colors.green[100],
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ]),
                   child: Text(
-                    "${product["quantity"]} buc",
+                    "${product["quantity"]}",
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: MediaQuery.of(context).size.width * 0.15,
+                  padding: const EdgeInsets.all(8.0),
+                  width: MediaQuery.of(context).size.width * 0.2,
                   decoration: BoxDecoration(
-                    color: Colors.red[100],
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ]),
                   child: Text(
-                    "\$${product["price"]}",
+                    "${product["price"]} Lei",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -267,21 +309,21 @@ class _ListDetailsState extends State<ListDetails> {
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       notchMargin: 9.0,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.home,
+            icon: const Icon(Icons.home,
                 color: Color.fromARGB(255, 255, 255, 255), size: 40),
             onPressed: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
             },
           ),
           IconButton(
-            icon: Icon(Icons.favorite,
+            icon: const Icon(Icons.favorite,
                 color: Color.fromARGB(255, 255, 255, 255), size: 45),
             onPressed: () {
               Navigator.push(
@@ -292,8 +334,7 @@ class _ListDetailsState extends State<ListDetails> {
                         .where((list) => list.isFavourite)
                         .toList(),
                     onFavouriteChanged: (ShoppingList list) {
-                      // Aici poți adăuga orice logică ai nevoie, sau lasă gol dacă nu este necesar
-                      print("Favoritul a fost schimbat");
+                      print("Lista favorită a fost schimbată");
                     },
                   ),
                 ),
@@ -302,7 +343,7 @@ class _ListDetailsState extends State<ListDetails> {
           ),
         ],
       ),
-    ); // Aceasta este acolada care lipsea
+    );
   }
 
   @override
@@ -310,23 +351,23 @@ class _ListDetailsState extends State<ListDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
           decoration: BoxDecoration(
-            color: Color.fromARGB(95, 255, 255, 255),
+            color: Color.fromARGB(82, 0, 0, 0),
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Text(
             widget.listName,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF014421),
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 20,
             ),
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(0, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
         elevation: 0,
       ),
       extendBody: true,
@@ -340,7 +381,8 @@ class _ListDetailsState extends State<ListDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addNewProduct,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
+        shape: CircleBorder(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(context),

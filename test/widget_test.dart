@@ -5,7 +5,7 @@ import 'package:shopping_list/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(ShoppingListApp());
+    await tester.pumpWidget(const ShoppingListApp());
 
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);

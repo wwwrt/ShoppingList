@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatelessWidget {
+  const ContactUsScreen({super.key});
+
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -14,25 +16,25 @@ class ContactUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contact Us"),
+        title: const Text("Contact Us"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            Text("Email: tpripon99@gmail.com"),
+            const Text("Email: tpripon99@gmail.com"),
             IconButton(
-              icon: Icon(Icons.language),
+              icon: const Icon(Icons.language),
               onPressed: () => _launchURL(
                   "https://www.linkedin.com/in/timotei-daniel-823629181/"),
             ),
             IconButton(
-              icon: Icon(Icons.facebook),
+              icon: const Icon(Icons.facebook),
               onPressed: () =>
                   _launchURL("https://web.facebook.com/timotei.d99"),
             ),
             IconButton(
-              icon: Icon(Icons.camera),
+              icon: const Icon(Icons.camera),
               onPressed: () =>
                   _launchURL("https://www.instagram.com/timotei_daniel28/"),
             ),

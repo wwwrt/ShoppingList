@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ListPriceCalculator extends StatelessWidget {
   final Map<String, dynamic> product;
 
-  ListPriceCalculator({required this.product});
+  const ListPriceCalculator({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
