@@ -159,13 +159,16 @@ class _HomePageState extends State<HomePage> {
     if (shoppingLists.isEmpty) {
       // Afișează mesajul de întâmpinare
       return Center(
-        child: Text(
-          'Bine ai venit! Începe prin a adăuga prima ta listă de cumpărături.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF014421),
-            fontSize: 20,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Text(
+            'Bine ai venit! Începe prin a adăuga prima ta listă de cumpărături.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF014421),
+              fontSize: 20,
+            ),
           ),
         ),
       );
