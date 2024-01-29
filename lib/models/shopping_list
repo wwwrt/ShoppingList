@@ -1,0 +1,9 @@
+import 'package:flutter/material.dart';
+
+class ShoppingList {
+  String title;
+  Color color;
+  bool isFavourite;
+
+  ShoppingList({required this.title, required this.color, this.isFavourite = false});
+}
