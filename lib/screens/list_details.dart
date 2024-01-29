@@ -291,6 +291,10 @@ class _ListDetailsState extends State<ListDetails> {
                     favouriteLists: widget.shoppingLists
                         .where((list) => list.isFavourite)
                         .toList(),
+                    onFavouriteChanged: (ShoppingList list) {
+                      // Aici poți adăuga orice logică ai nevoie, sau lasă gol dacă nu este necesar
+                      print("Favoritul a fost schimbat");
+                    },
                   ),
                 ),
               );
@@ -298,7 +302,7 @@ class _ListDetailsState extends State<ListDetails> {
           ),
         ],
       ),
-    );
+    ); // Aceasta este acolada care lipsea
   }
 
   @override

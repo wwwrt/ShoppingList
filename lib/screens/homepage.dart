@@ -254,6 +254,10 @@ class _HomePageState extends State<HomePage> {
                     favouriteLists: shoppingLists
                         .where((list) => list.isFavourite)
                         .toList(),
+                    onFavouriteChanged: (ShoppingList removedList) {
+                      // Actualizați starea listei când o listă este eliminată din favorite
+                      _toggleFavourite(shoppingLists.indexOf(removedList));
+                    },
                   ),
                 ),
               );

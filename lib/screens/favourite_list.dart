@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import '../models/shopping_list';
 import 'package:url_launcher/url_launcher.dart';
 
-class FavouriteList extends StatelessWidget {
+class FavouriteList extends StatefulWidget {
   final List<ShoppingList> favouriteLists;
+  final Function onFavouriteChanged;
 
-  FavouriteList({required this.favouriteLists});
+  FavouriteList(
+      {Key? key,
+      required this.favouriteLists,
+      required this.onFavouriteChanged})
+      : super(key: key);
+  @override
+  _FavouriteListState createState() => _FavouriteListState();
+}
 
+class _FavouriteListState extends State<FavouriteList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +45,11 @@ class FavouriteList extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           _buildDynamicBackground(),
-          _buildContent(),
+          Padding(
+            padding: EdgeInsets.only(
+                top: 60, bottom: 10), // Ajustează valoarea după preferințe
+            child: _buildContent(),
+          ),
         ],
       ),
       bottomNavigationBar: _buildBottomNavigationBar(context),
@@ -52,7 +65,7 @@ class FavouriteList extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             Color.fromARGB(163, 233, 239, 111),
-            Color.fromARGB(255, 49, 139, 155)
+            Color.fromARGB(255, 49, 139, 155),
           ],
         ),
       ),
@@ -61,14 +74,48 @@ class FavouriteList extends StatelessWidget {
 
   Widget _buildContent() {
     return ListView.builder(
-      itemCount: favouriteLists.length,
+      itemCount: widget.favouriteLists.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(favouriteLists[index].title),
-          leading: Icon(Icons.favorite, color: Colors.red),
-        );
+        return _buildFavouriteListItem(
+            context, widget.favouriteLists[index], index);
       },
     );
+  }
+
+  Widget _buildFavouriteListItem(
+      BuildContext context, ShoppingList list, int index) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: ListTile(
+          leading: Text(
+            list.title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.delete, color: Color.fromARGB(255, 46, 119, 17)),
+            onPressed: () {
+              _removeItemFromList(index);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _removeItemFromList(int index) {
+    setState(() {
+      var removedList = widget.favouriteLists[index];
+      widget.favouriteLists.removeAt(index);
+      widget.onFavouriteChanged(removedList);
+    });
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
@@ -80,7 +127,28 @@ class FavouriteList extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          // Adaugă aici butoane sau alte widget-uri după cum este necesar
+          IconButton(
+            icon: Icon(Icons.home,
+                color: Color.fromARGB(255, 255, 255, 255), size: 40),
+            onPressed: () {
+              Navigator.popUntil(context, ModalRoute.withName('/'));
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.favorite,
+                color: Color.fromARGB(255, 255, 255, 255), size: 45),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavouriteList(
+                    favouriteLists: widget.favouriteLists,
+                    onFavouriteChanged: (_) {}, // Dummy function
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
