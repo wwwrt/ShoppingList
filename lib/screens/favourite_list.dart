@@ -83,12 +83,15 @@ class _FavouriteListState extends State<FavouriteList> {
     if (widget.favouriteLists.isEmpty) {
       // dacă lista de favorite este goala
       return Center(
-        child: Text(
-          "Până acum, nu ai adăugat nicio listă la favorite",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            color: Color.fromARGB(255, 116, 116, 116),
+        child: Padding(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Text(
+            "Până acum, nu ai adăugat nicio listă la favorite",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              color: Color.fromARGB(255, 116, 116, 116),
+            ),
           ),
         ),
       );
