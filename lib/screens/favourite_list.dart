@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import '../models/shopping_list';
 import 'package:url_launcher/url_launcher.dart';
 
+// Clasa pentru ecranul cu listele favorite
 class FavouriteList extends StatefulWidget {
   final List<ShoppingList> favouriteLists;
   final Function onFavouriteChanged;
 
+  // Constructorul clasei FavouriteList
   const FavouriteList(
       {super.key,
       required this.favouriteLists,
@@ -17,7 +19,9 @@ class FavouriteList extends StatefulWidget {
 class _FavouriteListState extends State<FavouriteList> {
   @override
   Widget build(BuildContext context) {
+    // Construiește interfața utilizator pentru lista de favorite
     return Scaffold(
+      // Bara de navigație superioară
       appBar: AppBar(
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
@@ -39,22 +43,25 @@ class _FavouriteListState extends State<FavouriteList> {
         backgroundColor: const Color.fromARGB(0, 0, 0, 0),
         elevation: 0,
       ),
+      // Extinde corpul sub bara de navigație
       extendBody: true,
       extendBodyBehindAppBar: true,
+      // Corpul paginii
       body: Stack(
         children: <Widget>[
           _buildDynamicBackground(),
           Padding(
-            padding: const EdgeInsets.only(
-                top: 60, bottom: 10), // Ajustează valoarea după preferințe
+            padding: const EdgeInsets.only(top: 60, bottom: 10),
             child: _buildContent(),
           ),
         ],
       ),
+      //bottom navbar
       bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
+  // Widget pentru fundalul dinamic
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
       duration: const Duration(seconds: 1),
@@ -71,9 +78,10 @@ class _FavouriteListState extends State<FavouriteList> {
     );
   }
 
+// Widget pentru construirea conținutului ecranului
   Widget _buildContent() {
     if (widget.favouriteLists.isEmpty) {
-      // Afisarea unui mesaj atunci cand lista de favorite este goala
+      // dacă lista de favorite este goala
       return Center(
         child: Text(
           "Până acum, nu ai adăugat nicio listă la favorite",
@@ -86,7 +94,6 @@ class _FavouriteListState extends State<FavouriteList> {
       );
     }
 
-    // Construirea listei de favorite daca aceasta nu este goala
     return ListView.builder(
       itemCount: widget.favouriteLists.length,
       itemBuilder: (context, index) {
@@ -96,6 +103,7 @@ class _FavouriteListState extends State<FavouriteList> {
     );
   }
 
+  // Widget pentru construirea fiecărui element din lista de favorite
   Widget _buildFavouriteListItem(
       BuildContext context, ShoppingList list, int index) {
     return Padding(
@@ -125,6 +133,7 @@ class _FavouriteListState extends State<FavouriteList> {
     );
   }
 
+  // Funcția pentru eliminarea unui element din lista de favorite
   void _removeItemFromList(int index) {
     setState(() {
       var removedList = widget.favouriteLists[index];
@@ -133,6 +142,7 @@ class _FavouriteListState extends State<FavouriteList> {
     });
   }
 
+  // Widget pentru bottom navbar
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
@@ -169,6 +179,7 @@ class _FavouriteListState extends State<FavouriteList> {
     );
   }
 
+  // Funcția pentru deschiderea unui URL
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);

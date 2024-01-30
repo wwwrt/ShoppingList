@@ -5,6 +5,7 @@ class ListPriceCalculator extends StatelessWidget {
 
   const ListPriceCalculator({super.key, required this.product});
 
+//calculator cost total
   @override
   Widget build(BuildContext context) {
     double total = product["quantity"] * product["price"];

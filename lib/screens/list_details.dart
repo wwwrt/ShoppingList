@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'favourite_list.dart';
 import '../models/shopping_list';
 
+// Definirea clasei pentru ecranul cu detalii ale listei de cumpărături
 class ListDetails extends StatefulWidget {
   final String listName;
   final List<ShoppingList> shoppingLists;
 
+// Constructor pentru inițializarea listei de cumpărături și numele acesteia
   const ListDetails(
       {super.key, required this.listName, required this.shoppingLists});
 
@@ -14,39 +16,30 @@ class ListDetails extends StatefulWidget {
 }
 
 class _ListDetailsState extends State<ListDetails> {
+  // Lista de produse adăugate în lista de cumpărături
   List<Map<String, dynamic>> products = [];
 
-  void _incrementQuantity(int index) {
-    setState(() {
-      products[index]["quantity"] += 1;
-    });
-  }
-
-  void _decrementQuantity(int index) {
-    if (products[index]["quantity"] > 0) {
-      setState(() {
-        products[index]["quantity"] -= 1;
-      });
-    }
-  }
-
+// Funcția pentru ștergerea unui produs din listă
   void _deleteProduct(int index) {
     setState(() {
       products.removeAt(index);
     });
   }
 
+  // Funcția pentru calcularea costului total al produselor din listă
   double _calculateTotalCost() {
     return products.fold(0.0, (total, product) {
       return total + (product["quantity"] * product["price"]);
     });
   }
 
+  // Funcția pentru adăugarea unui produs nou în listă
   void _addNewProduct() {
     TextEditingController nameController = TextEditingController();
     TextEditingController quantityController = TextEditingController();
     TextEditingController priceController = TextEditingController();
 
+    // Afișarea dialogului pentru adăugarea unui produs nou
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -100,11 +93,13 @@ class _ListDetailsState extends State<ListDetails> {
     );
   }
 
+// Funcția pentru editarea unui produs existent
   void _editProduct(int index) {
     String productName = products[index]["name"];
     double quantity = products[index]["quantity"];
     double price = products[index]["price"];
 
+// Afișarea dialogului pentru editarea produsului
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -160,6 +155,7 @@ class _ListDetailsState extends State<ListDetails> {
     );
   }
 
+  // Widget pentru afișarea costului total
   Widget _buildTotalCostBox() {
     return Positioned(
       bottom: 120,
@@ -188,6 +184,7 @@ class _ListDetailsState extends State<ListDetails> {
     );
   }
 
+  // Widget pentru afișarea fundalului dinamic
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
       duration: const Duration(seconds: 1),
@@ -204,6 +201,7 @@ class _ListDetailsState extends State<ListDetails> {
     );
   }
 
+  // Widget pentru construirea și afișarea listei de produse
   Widget _buildList() {
     if (products.isEmpty) {
       return Center(
@@ -306,6 +304,7 @@ class _ListDetailsState extends State<ListDetails> {
     }
   }
 
+  // Widget pentru bottom navbar
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
@@ -348,7 +347,9 @@ class _ListDetailsState extends State<ListDetails> {
 
   @override
   Widget build(BuildContext context) {
+    // Construirea interfeței utilizator pentru ecranul cu detalii ale listei de cumpărături
     return Scaffold(
+      // Bara de navigație superioară
       appBar: AppBar(
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 11.0),
@@ -372,6 +373,7 @@ class _ListDetailsState extends State<ListDetails> {
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
+      // Corpul principal al ecranului
       body: Stack(
         children: <Widget>[
           _buildDynamicBackground(),
@@ -379,12 +381,15 @@ class _ListDetailsState extends State<ListDetails> {
           _buildTotalCostBox(),
         ],
       ),
+      // Butonul pentru adăugarea unui produs nou
       floatingActionButton: FloatingActionButton(
         onPressed: _addNewProduct,
         child: const Icon(Icons.add),
         shape: CircleBorder(),
       ),
+      // Poziționarea butonului
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // bottom navbar
       bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }

@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<ShoppingList> shoppingLists = [];
 
+//medtoda pentru adăugarea unei noi liste de cumpărături
   void _addNewList(String title, Color color) {
     final newList = ShoppingList(title: title, color: color);
     setState(() {
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+//metoda pentru afișarea dialogului pentru culori
   void _showColorPickerDialog(String title) {
     Color pickedColor = Colors.blue;
     showDialog(
@@ -53,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//metoda pentru afișarea dialogului pentru adăugarea unei noi liste
   Future<void> _showAddListDialog() async {
     String newListTitle = '';
     return showDialog<void>(
@@ -86,18 +89,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//metoda pentru toogle lista favorită
   void _toggleFavourite(int index) {
     setState(() {
       shoppingLists[index].isFavourite = !shoppingLists[index].isFavourite;
     });
   }
 
+//metoda de stergere a unei liste
   void _deleteList(int index) {
     setState(() {
       shoppingLists.removeAt(index);
     });
   }
 
+// Overridden build method to define the UI of the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +147,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//widget pentru fundalul dinamic
   Widget _buildDynamicBackground() {
     return AnimatedContainer(
       duration: const Duration(seconds: 1),
@@ -157,10 +164,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//widget pentru construirea main conținutului paginii
   Widget _buildContent() {
-    // Verifică dacă lista este goală
+    // verifică dacă lista este goală
     if (shoppingLists.isEmpty) {
-      // Afișează mesajul de întâmpinare
+      // afișează mesajul de întâmpinare
       return const Center(
         child: Padding(
           padding: EdgeInsets.only(left: 30, right: 30),
@@ -224,6 +232,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//widget pentru bottom navbar
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomAppBar(
       color: Colors.black.withOpacity(0.3),
@@ -279,6 +288,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//metoda pentru popup menu de jos
   void _handleMenuSelection(String value) {
     switch (value) {
       case 'About Us':
@@ -301,6 +311,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+//metoda pentru lansarea unui URL in browser
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
